@@ -1,0 +1,36 @@
+services:
+  litellm:
+    image: ghcr.io/berriai/litellm:main-latest
+    ports:
+      - "4000:4000"
+    volumes:
+      - ./config.yaml:/app/config.yaml
+    command: ["--config", "/app/config.yaml"]
+    environment:
+      - DATABASE_URL=postgresql://user:password@db:5432/litellm_db
+      # If you're using a master_key and it's set as an environment variable,
+      # uncomment the following lines and set your LITELLM_MASTER_KEY
+      # - LITELLM_MASTER_KEY=${LITELLM_MASTER_KEY}
+    depends_on:
+      - db
+
+  db:
+    image: postgres:15
+    environment:
+      POSTGRES_USER: user
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: litellm_db
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+  adminer:
+    image: adminer
+    ports:
+      - "8080:8080"
+    depends_on:
+      - db
+
+volumes:
+  postgres_data:
