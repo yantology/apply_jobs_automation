@@ -1,0 +1,27 @@
+model_list:
+  - model_name: gpt-4o-mini
+    litellm_params:
+      model: openai/gpt-4o-mini
+      litellm_credential_name: openai_credential # Reference credential
+  - model_name: gpt-3.5-turbo
+    litellm_params:
+      model: openai/gpt-3.5-turbo
+      litellm_credential_name: openai_credential # Reference credential
+  - model_name: gpt-4.1
+    litellm_params:
+      model: openai/gpt-4.1
+      litellm_credential_name: openai_credential # Reference credential
+
+litellm_settings:
+  drop_params: True
+
+general_settings:
+  master_key: sk-1234 # Or your specific key like "sk-1234"
+  database_url: os.environ/DATABASE_URL
+
+credential_list:
+  - credential_name: openai_credential
+    credential_values:
+      api_key: 
+    credential_info:
+      description: "OpenAI API Key"
