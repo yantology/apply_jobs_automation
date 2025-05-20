@@ -193,15 +193,11 @@ async def get_salary_min(page: Page, selector: str) -> int:
         salary_pattern = r'IDR\s*(\d[\d\.,]*)\s*-'
         salary_match = re.search(salary_pattern, salary)
         if salary_match:
-            salary_minimum_string = f"IDR {salary_match.group(1)}"
-
             # Konversi ke integer (menghapus titik sebagai pemisah ribuan)
             salary_minimum_number = int(salary_match.group(1).replace(".", "").replace(",", "").strip())
             salary_min = salary_minimum_number
             
-            if salary_min != None:
-                return salary_min
-            return 0
+            return salary_min # salary_min will always be an int here, or raise an error before this point.
         else:
             return 0
     except Exception as e:

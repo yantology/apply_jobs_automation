@@ -8,11 +8,10 @@ from pathlib import Path
 from .styles import get_style
 import os
 from enum import Enum
-from datetime import datetime # Added import
 
 from reportlab.lib.pagesizes import A4, letter
-from reportlab.platypus import SimpleDocTemplate, Paragraph, Spacer, ListFlowable, ListItem
-from typing import Callable, Iterable, Any, List
+from reportlab.platypus import SimpleDocTemplate, Paragraph, ListFlowable, ListItem, Flowable
+from typing import Callable, Iterable, Any, List, cast # Added cast
 from .paser.yaml import parse_yaml_file,validate_cv_data
 from .generate_summary import generate_summary
 
@@ -60,7 +59,7 @@ class PDFGenerator:
         )
 
         # Elements to be added to the PDF
-        self.elements = []
+        self.elements: List[Flowable] = []
 
     def generate(self):
         """Generate the PDF document."""
@@ -112,7 +111,7 @@ class PDFGenerator:
             self.elements.append(Paragraph(personal_info.title, self.styles.get('ContactInfo', self.styles['Normal']))) # Use ContactInfo or fallback to Normal
         
         # Combine contact information
-        contact_parts = []
+        contact_parts: List[str] = []
         if personal_info.email:
             contact_parts.append(f"Email: {personal_info.email}")
         if personal_info.phone:
@@ -168,9 +167,9 @@ class PDFGenerator:
             
             # Achievements for the role
             if role.achievements:
-                items = []
+                items: List[Flowable] = []
                 for achievement in role.achievements:
-                    items.append(ListItem(Paragraph(achievement, self.styles['Normal'])))
+                    items.append(cast(Flowable, ListItem(Paragraph(achievement, self.styles['Normal'])))) # Cast ListItem to Flowable
                 self.elements.append(ListFlowable(items, bulletType='bullet', leftIndent=12, bulletFontName='Helvetica-Bold', bulletFontSize=self.styles['Normal'].fontSize))
     
     def _format_education(self, edu: Education):
@@ -229,9 +228,9 @@ class PDFGenerator:
 
         # Achievements/Key Features
         if project.achievements:
-            items = []
+            items: List[Flowable] = []
             for achievement in project.achievements:
-                items.append(ListItem(Paragraph(achievement, self.styles['Normal'])))
+                items.append(cast(Flowable, ListItem(Paragraph(achievement, self.styles['Normal'])))) # Cast ListItem to Flowable
             self.elements.append(ListFlowable(items, bulletType='bullet', leftIndent=12, bulletFontName='Helvetica-Bold', bulletFontSize=self.styles['Normal'].fontSize))
 
 class JobCategory(Enum):

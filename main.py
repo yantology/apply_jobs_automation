@@ -1,6 +1,5 @@
-from patchright.async_api import async_playwright,expect
+from patchright.async_api import async_playwright
 import asyncio
-import random
 import os
 from provider.glints import glints_provider
 

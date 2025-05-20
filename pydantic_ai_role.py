@@ -4,7 +4,6 @@ from pydantic_ai.models.openai import OpenAIModel
 from openai import AsyncOpenAI
 from pydantic_ai.providers.openai import OpenAIProvider
 from pydantic import BaseModel, Field
-import asyncio
 
 # Inisialisasi klien OpenAI
 client = AsyncOpenAI(
