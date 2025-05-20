@@ -200,7 +200,7 @@ async def get_salary_min(page: Page, selector: str) -> int:
             return salary_min # salary_min will always be an int here, or raise an error before this point.
         else:
             return 0
-    except Exception as e:
+    except Exception:
         return 0
 
 async def get_description(page: Page, title_selector: str, description_selector: str) -> str:
